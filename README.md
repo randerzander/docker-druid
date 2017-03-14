@@ -1,8 +1,8 @@
 The intent of this project is to:
 
 1. Provide a single-container [Druid](http://druid.io/) service for dev/testing
-2. Expose Druid's HTTP API endpoint
-3. Expose Tranquility's "Stream Push" HTTP API endpoint
+2. Expose Druid's HTTP API endpoints
+3. Expose [Tranquility](https://github.com/druid-io/tranquility)'s "Stream Push" HTTP API endpoint
 
 The container also runs [Apache ZooKeeper](http://zookeeper.apache.org/) internally.
 
