@@ -6,7 +6,7 @@ The intent of this project is to:
 
 The container also runs [Apache ZooKeeper](http://zookeeper.apache.org/) internally.
 
-Tranquility is started with the example "metrics" dimensionless datasource. To customize sources, modify the conf/tranquility.json file.
+Tranquility is started with the example "metrics" dimensionless datasource. To customize sources, modify the conf/tranquility/server.json file.
 
 Build:
 ```
@@ -15,7 +15,7 @@ docker build -t druid .
 
 Run:
 ```
-docker run -d -p 8081:8081 8082:8082 8090:8090 druid
+docker run -d -p 8081:8081 -p 8082:8082 -p 8090:8090 druid
 ```
 
 Push Some Data:
