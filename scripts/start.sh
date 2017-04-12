@@ -17,4 +17,5 @@ java `cat conf-quickstart/druid/middleManager/jvm.config | xargs` -cp "conf-quic
 
 cd $TRANQUILITY_HOME
 ./bin/tranquility server -configFile $DRUID_HOME/conf/tranquility/server.json > tranquility.log & 2>&1
+sleep 5
 tail -f tranquility.log

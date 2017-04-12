@@ -1,28 +1,25 @@
 {
   "dataSources" : {
-    "quotes" : {
+    "processes" : {
       "spec" : {
         "dataSchema" : {
-          "dataSource" : "quotes",
+          "dataSource" : "metrics",
           "parser" : {
             "type" : "string",
             "parseSpec" : {
-              "timestampSpec" : {"column" : "utctime","format" : "auto"},
-              "dimensionsSpec" : {"dimensionExclusions" : ["ts", "utctime"]},
+              "timestampSpec" : {"column" : "ts","format" : "auto"},
+              "dimensionsSpec" : {"dimensionExclusions" : ["ts"]},
               "format" : "json"
             }
           },
           "granularitySpec" : {
-            "type": "uniform",
-            "segmentGranularity": "hour",
-            "queryGranularity": "none",
-            "rollup": false
+            "type" : "uniform",
+            "segmentGranularity" : "hour",
+            "queryGranularity" : "NONE"
           },
           "metricsSpec" : [
-            {"fieldName" : "price", "name": "priceMin", "type" : "doubleMin"},
-            {"fieldName" : "price", "name": "priceMax", "type" : "doubleMax"},
-            {"fieldName" : "volume", "name": "volumeMin", "type": "doubleMin"},
-            {"fieldName" : "volume", "name": "volumeMax", "type": "doubleMax"}
+            {"fieldName": "metric", "name": "min", "type": "doubleMin"},
+            {"fieldName": "metric", "name": "max", "type": "doubleMax"}
           ]
         },
         "ioConfig" : {"type" : "realtime"},

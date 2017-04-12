@@ -1,0 +1,10 @@
+{
+    "queryType": "groupBy",
+    "dataSource": "quotes",
+    "granularity": "all",
+    "dimensions": ["name"],
+    "aggregations": [
+        {"type": "count", "name": "value", "fieldName": "value"}
+    ],
+    "intervals": ["2010-01-01T00:00/2020-01-01T00"]
+}

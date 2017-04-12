@@ -1,0 +1,47 @@
+{
+  "type" : "index_hadoop",
+  "spec" : {
+    "ioConfig" : {
+      "type" : "hadoop",
+      "inputSpec" : {
+        "type" : "static",
+        "paths" : "/data/quotes.json"
+      }
+    },
+    "dataSchema" : {
+      "dataSource" : "quotes",
+      "granularitySpec" : {
+        "type": "uniform",
+        "segmentGranularity": "hour",
+        "queryGranularity": "none",
+        "intervals": ["2017-03-01/2017-03-31"],
+        "rollup": "false"
+      },
+      "parser" : {
+        "type" : "string",
+        "parseSpec" : {
+          "timestampSpec" : {"column" : "utctime","format" : "auto"},
+          "dimensionsSpec" : {"dimensionExclusions" : ["ts", "utctime"]},
+          "format" : "json"
+        }
+      },
+      "metricsSpec" : [
+        {"fieldName" : "price", "name": "priceMin", "type" : "doubleMin"},
+        {"fieldName" : "price", "name": "priceMax", "type" : "doubleMax"},
+        {"fieldName" : "volume", "name": "volumeMin", "type": "doubleMin"},
+        {"fieldName" : "volume", "name": "volumeMax", "type": "doubleMax"},
+        {"fieldName" : "volume", "name": "volumeSum", "type": "longSum"},
+        {"fieldName" : "volume", "name": "count", "type": "count"}
+      ]
+    },
+    "tuningConfig" : {
+      "type" : "hadoop",
+      "partitionsSpec" : {
+        "type" : "hashed",
+        "targetPartitionSize" : 5000000
+      },
+      "jobProperties" : {}
+    }
+  }
+}
+
