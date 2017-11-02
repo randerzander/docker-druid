@@ -19,6 +19,7 @@ docker run -d -p 8081:8081 -p 8082:8082 -p 8083:8083 -p 8084:8084 -p 8088:8088 -
 ```
 
 **Batch Indexing Files**
+
 To index a file (including data from outside the current window):
 ```
 # Index product sales from a local CSV file
@@ -52,13 +53,15 @@ curl -X POST "http://localhost:8082/druid/v2/?pretty" -H 'content-type: applicat
 ```
 
 **Publishing Streaming Data to Druid over HTTP**
+
 To push data to Druid via Tranquility's [Streaming Ingest](http://druid.io/docs/latest/ingestion/stream-ingestion.html):
 ```
 curl -X POST -H'Content-Type: application/json' --data-binary @data/btc-trades.json http://localhost:8200/v1/post/btc-trades_stream
 ...
 {"result":{"received":25,"sent":25}}
 ```
-*Note* data timestamps MUST be from within the last 5 minutes for the HTTP server to ingest them. If they are not, you'll see:
+
+*Note*: data timestamps MUST be from within the last 5 minutes for the HTTP server to ingest them. If they are not, you'll see:
 ```
 {"result":{"received":25,"sent":0}}
 ```
