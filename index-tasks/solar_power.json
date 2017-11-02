@@ -1,0 +1,49 @@
+{
+  "type" : "index_hadoop",
+  "spec" : {
+    "ioConfig" : {
+      "type" : "hadoop",
+      "inputSpec" : {
+        "type" : "static",
+        "paths" : "/data/solar_power.csv"
+      }
+    },
+    "dataSchema" : {
+      "dataSource" : "solar_power",
+      "granularitySpec" : {
+        "type": "uniform",
+        "segmentGranularity": "week",
+        "queryGranularity": "none",
+        "intervals": ["2015-11-09/2017-10-31"],
+        "rollup": "true"
+      },
+      "parser" : {
+        "type" : "javascript",
+        "parseSpec" : {
+          "columns": ["datetime", "temperature", "power"],
+          "format" : "tsv",
+          "delimiter" : ";",
+          "dimensionsSpec" : {"dimensionExclusions" : ["date", "tid"]},
+          "timestampSpec" : {"column" : "datetime","format" : "yyyy-MM-dd HH:mm:ss"}
+        },
+        "function" : "function(str) { var parts = str.split(';'); return { datetime: parts[0], temperature: parts[1].replace(',', '.'), power: parts[2] } }"
+      },
+      "metricsSpec" : [
+        {"name" : "count", "type": "count"},
+        {"fieldName" : "temperature", "name": "tMin", "type" : "doubleMin"},
+        {"fieldName" : "temperature", "name": "tMax", "type" : "doubleMax"},
+        {"fieldName" : "power", "name": "pMax", "type" : "doubleMax"},
+        {"fieldName" : "power", "name": "pMin", "type" : "doubleMax"},
+        {"fieldName" : "power", "name": "pSum", "type" : "doubleSum"}
+      ]
+    },
+    "tuningConfig" : {
+      "type" : "hadoop",
+      "partitionsSpec" : {
+        "type" : "hashed",
+        "targetPartitionSize" : 5000000
+      },
+      "jobProperties" : {}
+    }
+  }
+}

@@ -77,3 +77,4 @@ curl -XPOST -H'Content-Type: application/json' http://localhost:8082/druid/v2/sq
 Sample Data Sources:
 https://www.ibm.com/communities/analytics/watson-analytics-blog/sales-products-sample-data/
 https://www.bitstamp.net/api/transactions/
+https://raw.githubusercontent.com/jeroenboeye/jbo_blog/master/static/files/solar_power.csv
