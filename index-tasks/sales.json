@@ -1,0 +1,53 @@
+{
+  "type" : "index_hadoop",
+  "spec" : {
+    "ioConfig" : {
+      "type" : "hadoop",
+      "inputSpec" : {
+        "type" : "static",
+        "paths" : "/data/sales.csv"
+      }
+    },
+    "dataSchema" : {
+      "dataSource" : "sales",
+      "granularitySpec" : {
+        "type": "uniform",
+        "segmentGranularity": "month",
+        "queryGranularity": "none",
+        "intervals": ["2012-01-01/2099-10-05"],
+        "rollup": "true"
+      },
+      "parser" : {
+        "type" : "string",
+        "parseSpec" : {
+          "timestampSpec" : {"column" : "year","format" : "yyyy"},
+          "columns": ["country","Order_method","Retailer_type","Product_line","Product_type","Product","year","Quarter","Revenue","Quantity","Gross_margin"],
+          "dimensionsSpec" : {
+            "dimensionExclusions" : ["year"],
+            "dimensions": ["country","Order_method","Retailer_type","Product_line","Product_type","Product","Quarter"]
+          },
+          "format" : "csv"
+        }
+      },
+      "metricsSpec" : [
+        {"fieldName" : "Revenue", "name": "revenueMin", "type" : "doubleMin"},
+        {"fieldName" : "Revenue", "name": "revenueMax", "type" : "doubleMax"},
+        {"fieldName" : "Revenue", "name": "revenueSum", "type": "longSum"},
+        {"fieldName" : "Quantity", "name": "quantityMin", "type" : "doubleMin"},
+        {"fieldName" : "Quantity", "name": "quantityMax", "type" : "doubleMax"},
+        {"fieldName" : "Quantity", "name": "quantitySum", "type" : "longSum"},
+        {"fieldName" : "Gross_margin", "name": "marginMin", "type": "doubleMin"},
+        {"fieldName" : "Gross_margin", "name": "marginMax", "type": "doubleMax"},
+        {"fieldName" : "Gross_margin", "name": "marginSum", "type": "longSum"}
+      ]
+    },
+    "tuningConfig" : {
+      "type" : "hadoop",
+      "partitionsSpec" : {
+        "type" : "hashed",
+        "targetPartitionSize" : 5000000
+      },
+      "jobProperties" : {}
+    }
+  }
+}

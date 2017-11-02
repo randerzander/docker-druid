@@ -1,36 +1,36 @@
 {
   "dataSources" : {
-    "quotes" : {
+    "btc-trades_stream" : {
       "spec" : {
         "dataSchema" : {
-          "dataSource" : "quotes",
+          "dataSource" : "btc-trades_stream",
           "parser" : {
             "type" : "string",
             "parseSpec" : {
-              "timestampSpec" : {"column" : "utctime","format" : "auto"},
-              "dimensionsSpec" : {"dimensionExclusions" : ["ts", "utctime"]},
+              "timestampSpec" : {"column" : "date","format" : "posix"},
+              "dimensionsSpec" : {"dimensionExclusions" : ["date", "tid"]},
               "format" : "json"
             }
           },
           "granularitySpec" : {
             "type": "uniform",
-            "segmentGranularity": "hour",
+            "segmentGranularity": "FIVE_MINUTE",
             "queryGranularity": "none",
             "rollup": false
           },
           "metricsSpec" : [
+            {"name": "count", "type": "count"},
             {"fieldName" : "price", "name": "priceMin", "type" : "doubleMin"},
             {"fieldName" : "price", "name": "priceMax", "type" : "doubleMax"},
-            {"fieldName" : "volume", "name": "volumeMin", "type": "doubleMin"},
-            {"fieldName" : "volume", "name": "volumeMax", "type": "doubleMax"}
+            {"fieldName" : "amount", "name": "amountMin", "type": "doubleMin"},
+            {"fieldName" : "amount", "name": "amountMax", "type": "doubleMax"},
+            {"fieldName" : "amount", "name": "amountSum", "type": "longSum"}
           ]
         },
         "ioConfig" : {"type" : "realtime"},
         "tuningConfig" : {
           "type" : "realtime",
-          "maxRowsInMemory" : "100000",
-          "intermediatePersistPeriod" : "PT10M",
-          "windowPeriod" : "PT10M"
+          "windowPeriod" : "PT1M"
         }
       },
       "properties" : {

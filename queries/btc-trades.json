@@ -1,0 +1,20 @@
+{
+    "queryType": "groupBy",
+    "dataSource": "btc-trades_batch",
+    "granularity": "five_minute",
+    "intervals": ["2017-11-02T00:00/2017-11-03T03"],
+    "aggregations": [
+      { "type": "doubleMax", "name": "priceMax", "fieldName": "priceMax" },
+      { "type": "doubleMin", "name": "priceMin", "fieldName": "priceMin" }
+    ],
+    "postAggregations": [
+        { "type": "arithmetic",
+          "name": "priceRange",
+          "fn": "-",
+          "fields": [
+            { "type": "fieldAccess", "fieldName": "priceMax" },
+            { "type": "fieldAccess", "fieldName": "priceMin" }
+          ]
+        }
+    ]
+}

@@ -1,0 +1,46 @@
+{
+  "type" : "index_hadoop",
+  "spec" : {
+    "ioConfig" : {
+      "type" : "hadoop",
+      "inputSpec" : {
+        "type" : "static",
+        "paths" : "/data/btc-trades.json"
+      }
+    },
+    "dataSchema" : {
+      "dataSource" : "btc-trades_batch",
+      "granularitySpec" : {
+        "type": "uniform",
+        "segmentGranularity": "day",
+        "queryGranularity": "none",
+        "intervals": ["2017-11-01/2017-11-03"],
+        "rollup": "false"
+      },
+      "parser" : {
+        "type" : "string",
+        "parseSpec" : {
+          "timestampSpec" : {"column" : "date","format" : "posix"},
+          "dimensionsSpec" : {"dimensionExclusions" : ["date", "tid"]},
+          "format" : "json"
+        }
+      },
+        "metricsSpec" : [
+          {"name": "count", "type": "count"},
+          {"fieldName" : "price", "name": "priceMin", "type" : "doubleMin"},
+          {"fieldName" : "price", "name": "priceMax", "type" : "doubleMax"},
+          {"fieldName" : "amount", "name": "amountMin", "type": "doubleMin"},
+          {"fieldName" : "amount", "name": "amountMax", "type": "doubleMax"},
+          {"fieldName" : "amount", "name": "amountSum", "type": "longSum"}
+        ]
+    },
+    "tuningConfig" : {
+      "type" : "hadoop",
+      "partitionsSpec" : {
+        "type" : "hashed",
+        "targetPartitionSize" : 5000000
+      },
+      "jobProperties" : {}
+    }
+  }
+}

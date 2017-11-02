@@ -6,6 +6,10 @@ export TRANQUILITY_HOME=/tranquility
 
 $ZOOKEEPER_HOME/bin/zkServer.sh start
 
+echo "druid.sql.enable=true" >> /druid/conf-quickstart/druid/broker/runtime.properties
+echo "druid.sql.http.enable=true" >> /druid/conf-quickstart/druid/broker/runtime.properties
+echo "druid.sql.avatica.enable=true" >> /druid/conf-quickstart/druid/broker/runtime.properties
+
 cd $DRUID_HOME
 ./bin/init
 
@@ -18,4 +22,5 @@ java `cat conf-quickstart/druid/middleManager/jvm.config | xargs` -cp "conf-quic
 cd $TRANQUILITY_HOME
 ./bin/tranquility server -configFile $DRUID_HOME/conf/tranquility/server.json > tranquility.log & 2>&1
 sleep 5
-tail -f tranquility.log
+#tail -f tranquility.log
+tail -f /druid/broker.log
