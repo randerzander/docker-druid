@@ -23,7 +23,7 @@ docker run -d -p 8081:8081 -p 8082:8082 -p 8083:8083 -p 8084:8084 -p 8088:8088 -
 To index a file (including data from outside the current window):
 ```
 # Index product sales from a local CSV file
-curl -X 'POST' -H 'Content-Type:application/json' -d @index-tasks/sales.csv localhost:8090/druid/indexer/v1/task
+curl -X 'POST' -H 'Content-Type:application/json' -d @index-tasks/sales.json localhost:8090/druid/indexer/v1/task
 
 # Index BTC trades from a local JSON file
 curl -X 'POST' -H 'Content-Type:application/json' -d @index-tasks/btc-trades.json localhost:8090/druid/indexer/v1/task
@@ -75,6 +75,8 @@ curl -XPOST -H'Content-Type: application/json' http://localhost:8082/druid/v2/sq
 ```
 
 Sample Data Sources:
-https://www.ibm.com/communities/analytics/watson-analytics-blog/sales-products-sample-data/
-https://www.bitstamp.net/api/transactions/
-https://raw.githubusercontent.com/jeroenboeye/jbo_blog/master/static/files/solar_power.csv
+[Sample Sales Data](https://www.ibm.com/communities/analytics/watson-analytics-blog/sales-products-sample-data/)
+
+[BitCoin Transactions API](https://www.bitstamp.net/api/transactions/)
+
+[Solar Power TimeSeries](https://raw.githubusercontent.com/jeroenboeye/jbo_blog/master/static/files/solar_power.csv)
